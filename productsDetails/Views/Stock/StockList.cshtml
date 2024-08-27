@@ -1,0 +1,53 @@
+﻿@model IEnumerable<productsDetails.Models.Stock>
+
+@{
+    ViewData["Title"] = "StockList";
+}
+
+<h1>StockList</h1>
+
+<p>
+    <a asp-action="AddNewStock">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.stockStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.stockTotalCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.supplierId)
+            </th>
+            @* <th>
+                @Html.DisplayNameFor(model => model.singleStockId)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.stockStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.stockTotalCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.supplierId)
+            </td>
+           @*  <td>
+                @Html.DisplayFor(modelItem => item.singleStockId)
+            </td> *@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.skuId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.skuId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.skuId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

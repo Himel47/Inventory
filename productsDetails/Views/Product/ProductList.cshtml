@@ -1,0 +1,64 @@
+﻿
+@{
+}
+
+@model List<Product>
+
+<body>
+
+    <div class="container-fluid text-right">
+        <div class="d-flex justify-content-between">
+            <h2 class=" mb-3">Products List</h2>
+
+            <span class="gap-3 mb-4 mt-2">
+                <a class="btn btn-outline-info btn-sm" asp-controller="Product" asp-action="AddProduct">Add New product</a>
+                @*<a class="btn btn-info btn-sm text-dark" asp-controller="product" asp-action="AddproductToGroup">Add product To Group</a>*@
+            </span>
+        </div>
+
+        <table id="product-table" class="table table-striped table-bordered">
+            <thead class="text-center bg-secondary">
+                <tr>
+                    <th>id</th>
+                    <th></th>
+                    <th>Category id</th>
+                    <th>Product name</th>
+                    <th>Unit Cost</th>
+                    <th class="visible">Action</th>
+                </tr>
+            </thead>
+            <tbody class="p-3">
+                @* @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.productId</td>
+                        <td>
+                            <img src="data:@product.productImageFormat;base64,@product.productImage" alt="product" />
+                        </td>
+                        <td>@product.categoryId</td>
+                        <td>@product.productName</td>
+                        <td>@product.productUnitPrice</td>
+                        <td class="text-center">
+                            <div class="btn btn-group gap-3">
+                                <a class="text-decoration-none" asp-action="ProductDetails" asp-route-pId="@product.productId">Details</a>
+                                <a class="text-decoration-none" asp-action="UpdateData" asp-route-pId="@product.productId">Edit</a>
+                            </div>
+                        </td>
+                    </tr>
+                } *@
+            </tbody>
+        </table>
+    </div>
+</body>
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+
+            $("#product-table").DataTable()
+
+        })
+    </script>
+}

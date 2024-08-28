@@ -4,7 +4,7 @@
     ViewData["Title"] = "AddNewStock";
     var count = 1;
 }
-@model AddStockViewModel
+@model StockViewModel
 
 <h1>AddNewStock</h1>
 
@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="stock.stockReceiveDate" class="control-label"></label>
-                    <input asp-for="stock.stockReceiveDate" class="form-control"/>
+                    <input asp-for="stock.stockReceiveDate" class="form-control" type="date"/>
                     <span asp-validation-for="stock.stockReceiveDate" class="text-danger"></span>
                 </div>
             </div>
@@ -63,24 +63,16 @@
                         @Html.EditorFor(model => model.products[0].productImage, new { htmlAttributes = new { @class = "form-control", type = "file" } })
                         @Html.ValidationMessageFor(model => model.products[0].productImage, "", new { @class = "text-danger" })
                     </div>
-                    @* @using (Html.BeginForm("YourAction", "YourController", FormMethod.Post))
-                    {
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.products[0].categoryId)
-                            @Html.DropDownListFor(model => model.products[0].categoryId, (IEnumerable<SelectListItem>)ViewBag.Categories, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.products[0].categoryId, "", new { @class = "text-danger" })
-                        </div>
-                    } *@
                 </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary my-2" />
             </div>
             <div class="d-flex mt-5 justify-content-between">
                 <div></div>
                 <button id="add-form-btn">Add another product</button>
             </div>
         </form>
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary my-2" />
-        </div>
     </div>
     <div class=" col-md-4">
 
@@ -99,8 +91,8 @@
         $(document).ready(function () {
             var formTemplate = $('.form-template').clone();
             var formCount = 1;
-            var productHeading = document.querySelector("#productCount");
-            productHeading.textContent("Product ${formCount}");
+            var productHeading = document.querySelector('#productCount');
+            productHeading.textContent("Product " + formCount);
 
             $('#add-form-btn').click(function () {
                 var newForm = formTemplate.clone();

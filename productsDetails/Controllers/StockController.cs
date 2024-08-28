@@ -29,7 +29,7 @@ namespace productsDetails.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewStock(AddStockViewModel vm)
+        public async Task<IActionResult> AddNewStock(StockViewModel vm)
         {
             var response = await services.AddStockAsync(vm);
             return RedirectToAction("StockList");
@@ -40,20 +40,6 @@ namespace productsDetails.Controllers
         {
             var singleProductDetails = await services.StockDetailsAsync(skuId);
             return View(singleProductDetails);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> UpdateData(Guid skuId)
-        {
-            var response = await services.UpdateStockAsync(skuId);
-            return View(response);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdateData(Stock stock)
-        {
-            await services.UpdateStockAsync(stock);
-            return RedirectToAction("ProductList");
         }
     }
 }

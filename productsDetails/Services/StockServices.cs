@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using productsDetails.Data;
+using productsDetails.DTOs;
 using productsDetails.Models;
 using productsDetails.ServiceInterfaces;
 using productsDetails.ViewModels;
@@ -22,27 +23,78 @@ namespace productsDetails.Services
             return response;
         }
 
-        public async Task<AddStockViewModel> AddStockAsync()
+        public async Task<StockViewModel> AddStockAsync()
         {
-            return new AddStockViewModel();
+            return new StockViewModel();
         }
 
-        public async Task<AddStockViewModel> AddStockAsync(AddStockViewModel vm)
+        public async Task<StockViewModel> AddStockAsync(StockViewModel vm)
         {
-
+            if (vm.products.Count != 0)
+            {
+                foreach(var product in vm.products)
+                {
+                    var existedProduct = await dbContext.Products
+                        .Where(x=>x.productName==product.productName && x.categoryId==product.categoryId)
+                        .FirstOrDefaultAsync();
+                    if (existedProduct != null)
+                    {
+                        existedProduct.productQuantity += product.productQuantity;
+                    }
+                    else
+                    {
+                        var newProduct = new Product
+                        {
+                            productName = product.productName,
+                            productDesc = product.productDesc,
+                            productImage = product.productImage,
+                            productStatus = "In Stock",
+                            productQuantity = product.productQuantity,
+                            productUnitPrice = product.productUnitPrice
+                        };
+                        await dbContext.Products.AddAsync(newProduct);
+                    }
+                }
+            }
             await dbContext.Stocks.AddAsync(vm.stock);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
             return vm;
         }
 
-        public Task<Stock> RemoveStockAsync(Guid stockId)
+        public async Task<StockViewModel> StockDetailsAsync(Guid skuId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Stock> StockDetailsAsync(Guid skuId)
-        {
-            throw new NotImplementedException();
+            var stock = await dbContext.Stocks.SingleOrDefaultAsync(x=>x.skuId==skuId);
+            var productsList = new List<StockProductDto>();
+            var response = await dbContext.StockProducts
+                .Where(x=>x.stockId==skuId)
+                .ToListAsync();
+            if (response != null)
+            {
+                foreach(var res in response)
+                {
+                    var product = await dbContext.Products
+                        .Where(x => x.productId == res.propductId)
+                        .FirstOrDefaultAsync();
+                    if(product != null)
+                    {
+                        productsList.Add(new StockProductDto
+                        {
+                            productName = product.productName,
+                            productDesc = product.productDesc,
+                            productImage = product.productImage,
+                            productQuantity = product.productQuantity,
+                            productUnitPrice = product.productUnitPrice,
+                            categoryId = product.categoryId
+                        });
+                    }
+                }
+            }
+            var vm = new StockViewModel
+            {
+                products = productsList,
+                stock = stock
+            };
+            return vm;
         }
 
         public Task<Stock> UpdateStockAsync(Guid skuId)
@@ -51,6 +103,11 @@ namespace productsDetails.Services
         }
 
         public Task<Stock> UpdateStockAsync(Stock stock)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Stock> RemoveStockAsync(Guid stockId)
         {
             throw new NotImplementedException();
         }

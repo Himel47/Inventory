@@ -8,8 +8,8 @@ namespace productsDetails.Mapper
     {
         public MyMap()
         {
-           /* CreateMap<Product, StockProductDto>();
-            CreateMap<StockProductDto, Product>();*/
+            CreateMap<Product, StockProductDto>();
+            CreateMap<StockProductDto, Product>();
         }
     }
 }

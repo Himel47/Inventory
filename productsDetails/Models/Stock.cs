@@ -8,7 +8,7 @@ namespace productsDetails.Models
     {
         [Key]
         public Guid skuId { get; set; }
-        public string stockStatus { get; set; } = "";
+        public string stockStatus { get; set; } = "Received";
 
         [Display(Name = "Received Time")]
         public DateTime stockReceiveDate { get; set; }

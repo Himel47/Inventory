@@ -12,5 +12,6 @@ namespace productsDetails.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<StockWithProduct> StockProducts { get; set; }
     }
 }

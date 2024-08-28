@@ -4,7 +4,7 @@ using productsDetails.Models;
 
 namespace productsDetails.ViewModels
 {
-    public class AddStockViewModel
+    public class StockViewModel
     {
         public Stock stock { get; set; }
         public List<StockProductDto> products { get; set; }

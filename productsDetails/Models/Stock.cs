@@ -8,13 +8,20 @@ namespace productsDetails.Models
     {
         [Key]
         public Guid skuId { get; set; }
-        public string stockStatus { get; set; } = "Received";
+
+        [Display(Name ="Stock Status")]
+        public string StockStatus { get; set; } = "";
 
         [Display(Name = "Received Time")]
-        public DateTime stockReceiveDate { get; set; }
-        public int stockTotalCost { get; set; }
+        [Required]
+        public DateTime StockReceiveDate { get; set; }
+        public int StockTotalCost { get; set; } = 0;
 
         [Display(Name = "Supplier Name")]
-        public int? supplierId { get; set; }
+        public int? SupplierId { get; set; }
+
+        [Display(Name = "Number Of Products")]
+        [Required]
+        public int ProductNumber { get; set; }
     }
 }

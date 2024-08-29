@@ -1,36 +1,99 @@
-﻿@model productsDetails.Models.Stock
+﻿@using productsDetails.ViewModels
 
 @{
     ViewData["Title"] = "StockDetails";
 }
 
-<h1>StockDetails: </h1>
+@model StockViewModel
+
+<h1>StockDetails</h1>
 
 <div>
-    <h4>Stock</h4>
+    <h4>Stock Details</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.stockStatus)
+            @Html.DisplayNameFor(model => model.stock.StockStatus)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.stockStatus)
+            @Html.DisplayFor(model => model.stock.StockStatus)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.stockTotalCost)
+            @Html.DisplayNameFor(model => model.stock.StockReceiveDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.stockTotalCost)
+            @Html.DisplayFor(model => model.stock.StockReceiveDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.supplierId)
+            @Html.DisplayNameFor(model => model.stock.StockTotalCost)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.supplierId)
+            @Html.DisplayFor(model => model.stock.StockTotalCost)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.stock.SupplierId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.stock.SupplierId)
         </dd>
     </dl>
+    <h4>Products Ordered:</h4>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    @Html.DisplayNameFor(model => model.products[0].productImage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.products[0].productName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.products[0].categoryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.products[0].productQuantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.products[0].productUnitPrice)
+                </th>
+                <th>
+                    Product Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.products)
+            {
+                <tr class="text-center">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productImage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.categoryId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productQuantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.productUnitPrice)
+                    </td>
+                    @(item.productQuantity >= 0){
+                        <td class="text-success">
+                            In Stock Now
+                        </td>
+                    }:{
+                        <td class="text-danger">
+                            Out of Stock
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
-<div>
-    <a asp-action="UpdateData" asp-route-id="@Model?.skuId">Edit</a> |
-    <a asp-action="StockList">Back to List</a>
+<div><a asp-action="StockList">Back to List</a>
 </div>

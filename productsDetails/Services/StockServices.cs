@@ -23,19 +23,38 @@ namespace productsDetails.Services
             return response;
         }
 
-        public async Task<StockViewModel> AddStockAsync()
+        public async Task<Stock> AddStockAsync()
         {
-            return new StockViewModel();
+            return new Stock();
         }
 
-        public async Task<StockViewModel> AddStockAsync(StockViewModel vm)
+        public async Task<Stock> AddStockAsync(Stock st)
         {
-            if (vm.products.Count != 0)
+            await dbContext.Stocks.AddAsync(st);
+            await dbContext.SaveChangesAsync();
+
+            return st;
+        }
+
+        public async Task<StockViewModel> AddProductsToStockAsync(Stock stock)
+        {
+            var vm = new StockViewModel
             {
-                foreach(var product in vm.products)
+                stock = stock,
+                products = new List<StockProductDto>()
+            };
+
+            return vm;
+        }
+
+        public async Task<StockViewModel> AddProductsToStockAsync(StockViewModel vm)
+        {
+            if (vm.products != null && vm.products.Count != 0)
+            {
+                foreach (var product in vm.products)
                 {
                     var existedProduct = await dbContext.Products
-                        .Where(x=>x.productName==product.productName && x.categoryId==product.categoryId)
+                        .Where(x => x.productName == product.productName && x.categoryId == product.categoryId)
                         .FirstOrDefaultAsync();
                     if (existedProduct != null)
                     {
@@ -56,7 +75,10 @@ namespace productsDetails.Services
                     }
                 }
             }
-            await dbContext.Stocks.AddAsync(vm.stock);
+            if (vm.stock != null)
+            {
+                await dbContext.Stocks.AddAsync(vm.stock);
+            }
             await dbContext.SaveChangesAsync();
             return vm;
         }

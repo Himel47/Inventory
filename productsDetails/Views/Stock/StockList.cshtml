@@ -7,47 +7,51 @@
 <h1>StockList</h1>
 
 <p>
-    <button class="btn btn-check" asp-action="AddNewStock">Create New</button>
+    <a asp-action="AddNewStock" class="btn btn-outline-primary">Add New Stock</a>
 </p>
 <table class="table">
     <thead>
-        <tr>
+        <tr class="text-center">
             <th>
-                @Html.DisplayNameFor(model => model.stockStatus)
+                @Html.DisplayNameFor(model => model.StockReceiveDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.stockTotalCost)
+                @Html.DisplayNameFor(model => model.StockStatus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.supplierId)
+                @Html.DisplayNameFor(model => model.StockTotalCost)
             </th>
-            @* <th>
-                @Html.DisplayNameFor(model => model.singleStockId)
-            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductNumber)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.stockStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.stockTotalCost)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.supplierId)
-            </td>
-           @*  <td>
-                @Html.DisplayFor(modelItem => item.singleStockId)
-            </td> *@
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.skuId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.skuId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.skuId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model) {
+            <tr class="text-center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockReceiveDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockTotalCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SupplierId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductNumber)
+                </td>
+                <td>
+                    <a asp-action="StockDetails" class="btn btn-outline-success" asp-route-skuId="@item.skuId">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

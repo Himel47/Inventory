@@ -1,0 +1,138 @@
+﻿@using productsDetails.ViewModels
+
+
+@{
+    ViewData["Title"] = "AddProductsToStock";
+}
+
+@model StockViewModel
+
+<h2>Add Products To this Stock</h2>
+<hr />
+<h3>Stock Details:</h3>
+<dl class="row">
+    <dd>
+        @Html.HiddenFor(model=>model.stock.skuId)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.stock.StockStatus)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.stock.StockStatus)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.stock.StockReceiveDate)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.stock.StockReceiveDate)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.stock.StockTotalCost)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.stock.StockTotalCost)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.stock.SupplierId)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.stock.SupplierId)
+    </dd>
+</dl>
+<div class="mt-5">
+    <h3>
+        Products Form
+    </h3>
+</div>
+<form asp-action="AddProductsToStock" method="post">
+    <input type="text" class="form-control" asp-for="@Model.stock.skuId" hidden>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div id="forms-list" class="mt-5">
+        @for(int serial=0; serial<Model.stock.ProductNumber; serial++)
+        {
+            <div class="form-template">
+                <h3 id="productCount">Product @serial+1</h3>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.products[@serial].productName)
+                    @Html.EditorFor(model => model.products[@serial].productName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.products[@serial].productName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.products[@serial].productDesc)
+                    @Html.TextAreaFor(model => model.products[@serial].productDesc, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.products[@serial].productDesc, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.products[@serial].productUnitPrice)
+                    @Html.EditorFor(model => model.products[@serial].productUnitPrice, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                    @Html.ValidationMessageFor(model => model.products[@serial].productUnitPrice, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.products[@serial].productQuantity)
+                    @Html.EditorFor(model => model.products[@serial].productQuantity, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                    @Html.ValidationMessageFor(model => model.products[@serial].productQuantity, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.products[@serial].productImage)
+                    @Html.EditorFor(model => model.products[@serial].productImage, new { htmlAttributes = new { @class = "form-control", type = "file" } })
+                    @Html.ValidationMessageFor(model => model.products[@serial].productImage, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+    </div>
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    @* <script>
+
+        $(document).on('keyup keypress', function(e){
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        })
+
+        $(document).ready(function () {
+            var formTemplate = $('.form-template').clone();
+            var formCount = 1;
+
+            $('#add-form-btn').click(function (e) {
+                e.preventDefault();
+
+                formCount++;
+                var newForm = formTemplate.clone();
+
+                newForm.find('h3').text("Product " + formCount);
+
+                newForm.find('input, select, textarea').each(function () {
+                    var nameAttr = $(this).attr('name');
+                    var idAttr = $(this).attr('id');
+
+                    if (nameAttr) {
+                        $(this).attr('name', nameAttr.replace('0', formCount));
+                    }
+                    if (idAttr) {
+                        $(this).attr('id', idAttr.replace('0', formCount));
+                    }
+
+                    $(this).val('');
+                });
+
+                $('#forms-list').append(newForm);
+            });
+        });
+    </script> *@
+}
+
+
+
+

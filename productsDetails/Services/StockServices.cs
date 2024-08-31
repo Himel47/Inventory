@@ -36,12 +36,14 @@ namespace productsDetails.Services
             return st;
         }
 
-        public async Task<StockViewModel> AddProductsToStockAsync(Stock stock)
+        public async Task<StockViewModel> AddProductsToStockAsync(Stock st)
         {
             var vm = new StockViewModel
             {
-                stock = stock,
-                products = new List<StockProductDto>()
+                stock = st,
+                products =Enumerable.Range(0,st.ProductNumber)
+                    .Select(i=> new StockProductDto())
+                    .ToList()
             };
 
             return vm;
@@ -54,7 +56,8 @@ namespace productsDetails.Services
                 foreach (var product in vm.products)
                 {
                     var existedProduct = await dbContext.Products
-                        .Where(x => x.productName == product.productName && x.categoryId == product.categoryId)
+                        .Where(x => x.productName == product.productName
+                            && x.categoryId == product.categoryId)
                         .FirstOrDefaultAsync();
                     if (existedProduct != null)
                     {
@@ -66,18 +69,27 @@ namespace productsDetails.Services
                         {
                             productName = product.productName,
                             productDesc = product.productDesc,
-                            productImage = product.productImage,
+                            productImage = product.productImage.ContentType,
                             productStatus = "In Stock",
                             productQuantity = product.productQuantity,
                             productUnitPrice = product.productUnitPrice
                         };
+
+                        var mStream = new MemoryStream();
+                        product.productImage.CopyTo(mStream);
+                        newProduct.productImageByteString = mStream.ToArray();
+
                         await dbContext.Products.AddAsync(newProduct);
+
+                        StockWithProduct stockProduct = new StockWithProduct
+                        {
+                            stockId = vm.stock.skuId,
+                            propductId = newProduct.productId
+                        };
+
+                        await dbContext.StockProducts.AddAsync(stockProduct);
                     }
                 }
-            }
-            if (vm.stock != null)
-            {
-                await dbContext.Stocks.AddAsync(vm.stock);
             }
             await dbContext.SaveChangesAsync();
             return vm;
@@ -103,7 +115,7 @@ namespace productsDetails.Services
                         {
                             productName = product.productName,
                             productDesc = product.productDesc,
-                            productImage = product.productImage,
+                            //productImage = product.productImage,
                             productQuantity = product.productQuantity,
                             productUnitPrice = product.productUnitPrice,
                             categoryId = product.categoryId

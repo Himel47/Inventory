@@ -1,0 +1,42 @@
+﻿@using productsDetails.DTOs
+
+
+@model StockProductDto
+
+<div>
+    <div>
+        <label asp-for="productName"></label>
+        <input asp-for="productName" />
+        <span asp-validation-for="productName"></span>
+    </div>
+
+    <div>
+        <label asp-for="productDesc"></label>
+        <input asp-for="productDesc" />
+        <span asp-validation-for="productDesc"></span>
+    </div>
+
+    <div>
+        <label asp-for="productUnitPrice"></label>
+        <input asp-for="productUnitPrice" />
+        <span asp-validation-for="productUnitPrice"></span>
+    </div>
+
+    <div>
+        <label asp-for="productQuantity"></label>
+        <input asp-for="productQuantity" />
+        <span asp-validation-for="productQuantity"></span>
+    </div>
+
+    <div>
+        <label asp-for="categoryId"></label>
+        <input asp-for="categoryId" />
+        <span asp-validation-for="categoryId"></span>
+    </div>
+
+    <div>
+        <label asp-for="productImage"></label>
+        <input asp-for="productImage" accept="image/*" />
+        <span asp-validation-for="productImage"></span>
+    </div>
+</div>

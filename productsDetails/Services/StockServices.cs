@@ -69,16 +69,16 @@ namespace productsDetails.Services
                         {
                             productName = product.productName,
                             productDesc = product.productDesc,
-                            productImage = product.productImage.ContentType,
+                            //productImage = product.productImage.ContentType,
                             productStatus = "In Stock",
                             productQuantity = product.productQuantity,
                             productUnitPrice = product.productUnitPrice
                         };
 
-                        var mStream = new MemoryStream();
+                        /*var mStream = new MemoryStream();
                         product.productImage.CopyTo(mStream);
                         newProduct.productImageByteString = mStream.ToArray();
-
+*/
                         await dbContext.Products.AddAsync(newProduct);
 
                         StockWithProduct stockProduct = new StockWithProduct
@@ -115,7 +115,8 @@ namespace productsDetails.Services
                         {
                             productName = product.productName,
                             productDesc = product.productDesc,
-                            //productImage = product.productImage,
+                            //ProductViewPicture = Convert.ToBase64String(product.productImageByteString),
+                            //ProductViewPictureFormat = product.productImage,
                             productQuantity = product.productQuantity,
                             productUnitPrice = product.productUnitPrice,
                             categoryId = product.categoryId
@@ -125,9 +126,12 @@ namespace productsDetails.Services
             }
             var vm = new StockViewModel
             {
-                products = productsList,
-                stock = stock
+                products = productsList
             };
+            if (stock != null)
+            {
+                vm.stock = stock;
+            }
             return vm;
         }
 

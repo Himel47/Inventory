@@ -27,12 +27,6 @@
         @Html.DisplayFor(model => model.stock.StockReceiveDate)
     </dd>
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.stock.StockTotalCost)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.stock.StockTotalCost)
-    </dd>
-    <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.stock.SupplierId)
     </dt>
     <dd class="col-sm-10">
@@ -45,11 +39,26 @@
     </h3>
 </div>
 <form asp-action="AddProductsToStock" method="post" enctype="multipart/form-data">
-    @for(int it=0; it<Model.stock.ProductNumber; it++)
+    @Html.HiddenFor(model => model.stock.skuId)
+    @Html.HiddenFor(model => model.stock.StockReceiveDate)
+    @Html.HiddenFor(model => model.stock.ProductNumber)
+    @Html.HiddenFor(model => model.stock.StockStatus)
+    @Html.HiddenFor(model => model.stock.StockTotalCost)
+    @Html.HiddenFor(model => model.stock.SupplierId)
+    
+    @for (int it = 0; it < Model.stock.ProductNumber; it++)
     {
-        <partial name="_ProductForm" model="Model.products[it]" />
+        <div class="my-2 border border-dark rounded-3">
+            <h4 class="px-3 py-1">Product @(it + 1)</h4>
+            <div>
+                @{
+                    var product = Model.products[it];
+                }
+                <partial name="_ProductForm" model="product" />
+            </div>
+        </div>
     }
-    <button type="submit">Submit</button>
+    <button type="submit" class="btn btn-primary rounded">Submit</button>
 </form>
 
 

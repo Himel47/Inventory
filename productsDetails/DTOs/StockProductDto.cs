@@ -14,7 +14,7 @@ namespace productsDetails.DTOs
         public int productQuantity { get; set; }
         
         public IFormFile productImage { get; set; }
-        
+
         public int categoryId { get; set; }
     }
 }

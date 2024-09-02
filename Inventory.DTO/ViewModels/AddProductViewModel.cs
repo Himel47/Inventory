@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using productsDetails.Models;
+﻿using Inventory.DTO.Models;
+using System.Web.Mvc;
 
-namespace productsDetails.ViewModels
+namespace Inventory.DTO.ViewModels
 {
     public class AddProductViewModel
     {

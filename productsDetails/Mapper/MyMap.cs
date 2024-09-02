@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using productsDetails.DTOs;
-using productsDetails.Models;
+using Inventory.DTO.DTOs;
+using Inventory.DTO.Models;
 
-namespace productsDetails.Mapper
+namespace Inventory.Mapper
 {
-    public class MyMap:Profile
+    public class MyMap : Profile
     {
         public MyMap()
         {

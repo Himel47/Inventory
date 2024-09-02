@@ -1,15 +1,13 @@
-﻿using productsDetails.DTOs;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace productsDetails.Models
+namespace Inventory.DTO.Models
 {
     public class Stock
     {
         [Key]
         public Guid skuId { get; set; }
 
-        [Display(Name ="Stock Status")]
+        [Display(Name = "Stock Status")]
         public string StockStatus { get; set; } = "";
 
         [Display(Name = "Received Time")]

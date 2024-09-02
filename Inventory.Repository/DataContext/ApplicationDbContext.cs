@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using productsDetails.Models;
+﻿using Inventory.DTO.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace productsDetails.Data
+namespace Inventory.Repository.DataContext
 {
     public class ApplicationDbContext : DbContext
     {

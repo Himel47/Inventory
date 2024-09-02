@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "productsDetails", "productsDetails\productsDetails.csproj", "{6CC94282-8BB2-498F-99B1-E91D0B1F6E6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory", "productsDetails\Inventory.csproj", "{6CC94282-8BB2-498F-99B1-E91D0B1F6E6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.DTO", "Inventory.DTO\Inventory.DTO.csproj", "{738D671D-568E-4933-A231-7F5AE22A1789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.DTO", "Inventory.DTO\Inventory.DTO.csproj", "{738D671D-568E-4933-A231-7F5AE22A1789}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Handler", "Inventory.Handler\Inventory.Handler.csproj", "{2E4012BB-68B9-4DA3-AE09-C1ADAA848D1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Handler", "Inventory.Handler\Inventory.Handler.csproj", "{2E4012BB-68B9-4DA3-AE09-C1ADAA848D1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.Repository", "Inventory.Repository\Inventory.Repository.csproj", "{726C1FB9-54D8-4F07-BD73-47D0BC490057}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Repository", "Inventory.Repository\Inventory.Repository.csproj", "{726C1FB9-54D8-4F07-BD73-47D0BC490057}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory.AggregateRoot", "Inventory.AggregateRoot\Inventory.AggregateRoot.csproj", "{3929C295-8D4C-4081-B17C-ECD7E6E35390}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.AggregateRoot", "Inventory.AggregateRoot\Inventory.AggregateRoot.csproj", "{3929C295-8D4C-4081-B17C-ECD7E6E35390}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

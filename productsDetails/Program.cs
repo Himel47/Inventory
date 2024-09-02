@@ -1,7 +1,7 @@
+using Inventory.Repository.DataContext;
+using Inventory.Repository.IServices;
+using Inventory.Repository.Services;
 using Microsoft.EntityFrameworkCore;
-using productsDetails.Data;
-using productsDetails.ServiceInterfaces;
-using productsDetails.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

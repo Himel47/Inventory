@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace productsDetails.Models
+namespace Inventory.DTO.Models
 {
     public class Category
     {
         [Key]
         public int categoryId { get; set; }
-        public string categoryName { get; set; }
+        public string CategoryName { get; set; }
     }
 }

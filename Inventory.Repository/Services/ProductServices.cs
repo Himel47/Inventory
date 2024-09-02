@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Inventory.DTO.Models;
+using Inventory.DTO.ViewModels;
+using Inventory.Repository.DataContext;
+using Inventory.Repository.IServices;
 using Microsoft.EntityFrameworkCore;
-using productsDetails.Data;
-using productsDetails.Models;
-using productsDetails.ServiceInterfaces;
-using productsDetails.ViewModels;
+using System.Web.Mvc;
 
-namespace productsDetails.Services
+namespace Inventory.Repository.Services
 {
     public class ProductServices : IProductsServices
     {
@@ -13,7 +13,7 @@ namespace productsDetails.Services
 
         public ProductServices(ApplicationDbContext _dbContext)
         {
-            this.dbContext = _dbContext;
+            dbContext = _dbContext;
         }
 
         public async Task<AddProductViewModel> AddProductAsync()

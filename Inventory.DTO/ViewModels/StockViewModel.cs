@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using productsDetails.DTOs;
-using productsDetails.Models;
+﻿using Inventory.DTO.DTOs;
+using Inventory.DTO.Models;
 
-namespace productsDetails.ViewModels
+namespace Inventory.DTO.ViewModels
 {
     public class StockViewModel
     {

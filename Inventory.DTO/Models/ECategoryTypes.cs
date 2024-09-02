@@ -1,4 +1,4 @@
-﻿namespace productsDetails.Models
+﻿namespace Inventory.DTO.Models
 {
     public enum ECategoryTypes
     {

@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Inventory.DTO.DTOs;
+using Inventory.DTO.Models;
+using Inventory.DTO.ViewModels;
+using Inventory.Repository.DataContext;
+using Inventory.Repository.IServices;
 using Microsoft.EntityFrameworkCore;
-using productsDetails.Data;
-using productsDetails.DTOs;
-using productsDetails.Models;
-using productsDetails.ServiceInterfaces;
-using productsDetails.ViewModels;
 
-namespace productsDetails.Services
+namespace Inventory.Repository.Services
 {
     public class StockServices : IStockServices
     {
@@ -41,8 +40,8 @@ namespace productsDetails.Services
             var vm = new StockViewModel
             {
                 stock = st,
-                products =Enumerable.Range(0,st.ProductNumber)
-                    .Select(i=> new StockProductDto())
+                products = Enumerable.Range(0, st.ProductNumber)
+                    .Select(i => new StockProductDto())
                     .ToList()
             };
 
@@ -97,19 +96,19 @@ namespace productsDetails.Services
 
         public async Task<StockViewModel> StockDetailsAsync(Guid skuId)
         {
-            var stock = await dbContext.Stocks.SingleOrDefaultAsync(x=>x.skuId==skuId);
+            var stock = await dbContext.Stocks.SingleOrDefaultAsync(x => x.skuId == skuId);
             var productsList = new List<StockProductDto>();
             var response = await dbContext.StockProducts
-                .Where(x=>x.stockId==skuId)
+                .Where(x => x.stockId == skuId)
                 .ToListAsync();
             if (response != null)
             {
-                foreach(var res in response)
+                foreach (var res in response)
                 {
                     var product = await dbContext.Products
                         .Where(x => x.productId == res.propductId)
                         .FirstOrDefaultAsync();
-                    if(product != null)
+                    if (product != null)
                     {
                         productsList.Add(new StockProductDto
                         {

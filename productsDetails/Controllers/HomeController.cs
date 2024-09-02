@@ -1,8 +1,8 @@
+using Inventory.DTO.Models;
 using Microsoft.AspNetCore.Mvc;
-using productsDetails.Models;
 using System.Diagnostics;
 
-namespace productsDetails.Controllers
+namespace Inventory.Controllers
 {
     public class HomeController : Controller
     {

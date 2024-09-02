@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace productsDetails.DTOs
+namespace Inventory.DTO.DTOs
 {
     public class StockProductDto
     {

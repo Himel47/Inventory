@@ -1,7 +1,9 @@
-﻿using productsDetails.Models;
-using productsDetails.ViewModels;
+﻿using Inventory.DTO.Models;
+using Inventory.DTO.ViewModels;
 
-namespace productsDetails.ServiceInterfaces
+;
+
+namespace Inventory.Repository.IServices
 {
     public interface IStockServices
     {

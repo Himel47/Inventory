@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using productsDetails.Models;
-using productsDetails.ServiceInterfaces;
-using productsDetails.ViewModels;
+﻿using Inventory.DTO.Models;
+using Inventory.DTO.ViewModels;
+using Inventory.Repository.IServices;
+using Microsoft.AspNetCore.Mvc;
 
-namespace productsDetails.Controllers
+namespace Inventory.Controllers
 {
     public class StockController : Controller
     {

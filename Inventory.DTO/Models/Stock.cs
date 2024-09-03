@@ -13,7 +13,7 @@ namespace Inventory.DTO.Models
         [Display(Name = "Received Time")]
         [Required]
         public DateTime StockReceiveDate { get; set; }
-        public int StockTotalCost { get; set; } = 0;
+        public long StockTotalCost { get; set; } = 0;
 
         [Display(Name = "Supplier Name")]
         public int? SupplierId { get; set; }

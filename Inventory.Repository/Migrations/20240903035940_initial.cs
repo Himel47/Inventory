@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace productsDetails.Migrations
+namespace Inventory.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class dbtablesrecreated : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace productsDetails.Migrations
                 {
                     categoryId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    categoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,7 +33,8 @@ namespace productsDetails.Migrations
                     productDesc = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     productUnitPrice = table.Column<int>(type: "int", nullable: false),
                     productQuantity = table.Column<int>(type: "int", nullable: false),
-                    productImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    productImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    productImageByteString = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     productStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     categoryId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -43,14 +44,29 @@ namespace productsDetails.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StockProducts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    stockId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    propductId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockProducts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stocks",
                 columns: table => new
                 {
                     skuId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    stockStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    stockReceiveDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    stockTotalCost = table.Column<int>(type: "int", nullable: false),
-                    supplierId = table.Column<int>(type: "int", nullable: true)
+                    StockStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StockReceiveDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StockTotalCost = table.Column<int>(type: "int", nullable: false),
+                    SupplierId = table.Column<int>(type: "int", nullable: true),
+                    ProductNumber = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,6 +82,9 @@ namespace productsDetails.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "StockProducts");
 
             migrationBuilder.DropTable(
                 name: "Stocks");

@@ -8,7 +8,7 @@
 <h4></h4>
 <hr />
 
-<div class="row">
+<div class="row" id="new-stock">
     <div class="col-md-8">
         <form asp-action="AddNewStock" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -20,7 +20,7 @@
                 </div>
                 <div class="form-group col-5">
                     <label asp-for="StockReceiveDate" class="control-label my-2"></label>
-                    <input asp-for="StockReceiveDate" class="form-control" type="date" />
+                    <input asp-for="StockReceiveDate" class="form-control" type="date" readonly/>
                     <span asp-validation-for="StockReceiveDate" class="text-danger"></span>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <span asp-validation-for="SupplierId" class="text-danger"></span>
             </div>
             <div class="form-group mt-4">
-                <input type="submit" value="Next" class="btn btn-primary" />
+                <button type="submit" class="btn btn-primary rounded">Next <i class="bi bi-arrow-right"></i></button>
             </div>
         </form>
     </div>
@@ -46,4 +46,17 @@
 <div class="mt-5">
     <a asp-action="StockList">Back to List</a>
 </div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $('#loan-details-form').on('keyup keypress', function (e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+}
 

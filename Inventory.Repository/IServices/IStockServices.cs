@@ -1,7 +1,6 @@
 ﻿using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
 
-;
 
 namespace Inventory.Repository.IServices
 {

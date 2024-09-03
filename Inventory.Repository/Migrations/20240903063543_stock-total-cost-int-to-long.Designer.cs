@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace productsDetails.Migrations
+namespace Inventory.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240829102343_NoOfProducts")]
-    partial class NoOfProducts
+    [Migration("20240903063543_stock-total-cost-int-to-long")]
+    partial class stocktotalcostinttolong
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace productsDetails.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("productsDetails.Models.Category", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.Category", b =>
                 {
                     b.Property<int>("categoryId")
                         .ValueGeneratedOnAdd()
@@ -33,7 +33,7 @@ namespace productsDetails.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("categoryId"));
 
-                    b.Property<string>("categoryName")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -42,7 +42,7 @@ namespace productsDetails.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("productsDetails.Models.Product", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.Product", b =>
                 {
                     b.Property<Guid>("productId")
                         .ValueGeneratedOnAdd()
@@ -56,7 +56,12 @@ namespace productsDetails.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("productImage")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("productImageByteString")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("productName")
                         .IsRequired()
@@ -77,7 +82,7 @@ namespace productsDetails.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("productsDetails.Models.Stock", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.Stock", b =>
                 {
                     b.Property<Guid>("skuId")
                         .ValueGeneratedOnAdd()
@@ -93,8 +98,8 @@ namespace productsDetails.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StockTotalCost")
-                        .HasColumnType("int");
+                    b.Property<long>("StockTotalCost")
+                        .HasColumnType("bigint");
 
                     b.Property<int?>("SupplierId")
                         .HasColumnType("int");
@@ -104,7 +109,7 @@ namespace productsDetails.Migrations
                     b.ToTable("Stocks");
                 });
 
-            modelBuilder.Entity("productsDetails.Models.StockWithProduct", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.StockWithProduct", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()

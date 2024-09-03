@@ -1,4 +1,4 @@
-﻿@    using productsDetails.ViewModels
+﻿@using Inventory.DTO.ViewModels
 
 
 @{
@@ -49,12 +49,48 @@
     @for (int it = 0; it < Model.stock.ProductNumber; it++)
     {
         <div class="my-2 border border-dark rounded-3">
-            <h4 class="px-3 py-1">Product @(it + 1)</h4>
-            <div>
-                @{
-                    var product = Model.products[it];
-                }
-                <partial name="_ProductForm" model="product" />
+            <div class="card my-2 rounded border border-white">
+                <div class="card-header">
+                    <h5>
+                        Product @(it + 1)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row col-10 mb-2">
+                        <div class="form-group col-md-6">
+                            <label asp-for="@Model.products[it].productName"></label>
+                            <input asp-for="@Model.products[it].productName" class="form-control" />
+                            <span asp-validation-for="@Model.products[it].productName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label asp-for="@Model.products[it].categoryId"></label>
+                            <input asp-for="@Model.products[it].categoryId" class="form-control" />
+                            <span asp-validation-for="@Model.products[it].categoryId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5 mb-2">
+                        <label asp-for="@Model.products[it].productDesc"></label>
+                        <textarea asp-for="@Model.products[it].productDesc" class="form-control" rows="4" cols="50"></textarea>
+                        <span asp-validation-for="@Model.products[it].productDesc" class="text-danger"></span>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="form-group col-md-4">
+                            <label asp-for="@Model.products[it].productUnitPrice"></label>
+                            <input asp-for="@Model.products[it].productUnitPrice" class="form-control" />
+                            <span asp-validation-for="@Model.products[it].productUnitPrice" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label asp-for="@Model.products[it].productQuantity"></label>
+                            <input asp-for="@Model.products[it].productQuantity" class="form-control" />
+                            <span asp-validation-for="@Model.products[it].productQuantity" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-10 mb-2">
+                        <label asp-for="@Model.products[it].productImage"></label>
+                        <input asp-for="@Model.products[it].productImage" class="form-control-file" />
+                        <span asp-validation-for="@Model.products[it].productImage" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
         </div>
     }

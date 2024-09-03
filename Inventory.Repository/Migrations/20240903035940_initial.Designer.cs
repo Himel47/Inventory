@@ -4,16 +4,19 @@ using Inventory.Repository.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace productsDetails.Migrations
+namespace Inventory.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240903035940_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace productsDetails.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("productsDetails.Models.Category", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.Category", b =>
                 {
                     b.Property<int>("categoryId")
                         .ValueGeneratedOnAdd()
@@ -30,7 +33,7 @@ namespace productsDetails.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("categoryId"));
 
-                    b.Property<string>("categoryName")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -39,7 +42,7 @@ namespace productsDetails.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("productsDetails.Models.Product", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.Product", b =>
                 {
                     b.Property<Guid>("productId")
                         .ValueGeneratedOnAdd()
@@ -79,7 +82,7 @@ namespace productsDetails.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("productsDetails.Models.Stock", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.Stock", b =>
                 {
                     b.Property<Guid>("skuId")
                         .ValueGeneratedOnAdd()
@@ -106,7 +109,7 @@ namespace productsDetails.Migrations
                     b.ToTable("Stocks");
                 });
 
-            modelBuilder.Entity("productsDetails.Models.StockWithProduct", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.StockWithProduct", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()

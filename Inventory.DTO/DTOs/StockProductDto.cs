@@ -15,5 +15,9 @@ namespace Inventory.DTO.DTOs
         public IFormFile productImage { get; set; }
 
         public int categoryId { get; set; }
+
+        public string? ProductViewPicture  { get; set; }
+
+        public string? ProductViewPictureFormat { get; set; }
     }
 }

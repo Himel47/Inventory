@@ -35,7 +35,7 @@ namespace Inventory.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> StockDetails(Guid pId)
+        public async Task<IActionResult> ProductDetails(Guid pId)
         {
             var singleProductDetails = await pServices.ProductDetailsAsync(pId);
             return View(singleProductDetails);

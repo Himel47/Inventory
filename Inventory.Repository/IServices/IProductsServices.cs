@@ -1,11 +1,12 @@
-﻿using Inventory.DTO.Models;
+﻿using Inventory.DTO.DTOs;
+using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
 
 namespace Inventory.Repository.IServices
 {
     public interface IProductsServices
     {
-        public Task<List<Product>> GetProductsAsync();
+        public Task<List<StockProductDto>> GetProductsAsync();
         public Task<Product> ProductDetailsAsync(Guid productId);
         public Task<AddProductViewModel> AddProductAsync();
         public Task<Product> AddProductAsync(Product product);

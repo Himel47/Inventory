@@ -1,4 +1,5 @@
-﻿using Inventory.DTO.Models;
+﻿using Inventory.DTO.DTOs;
+using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
 using Inventory.Repository.DataContext;
 using Inventory.Repository.IServices;
@@ -32,10 +33,27 @@ namespace Inventory.Repository.Services
             throw new NotImplementedException();
         }
 
-        public async Task<List<Product>> GetProductsAsync()
+        public async Task<List<StockProductDto>> GetProductsAsync()
         {
-            var response = await dbContext.Products.ToListAsync();
-            return response;
+            List<StockProductDto> products = new List<StockProductDto>();
+            var allProducts = await dbContext.Products.ToListAsync();
+            if (allProducts != null)
+            {
+                foreach(var product in allProducts)
+                {
+                    products.Add(new StockProductDto
+                    {
+                        productName = product.productName,
+                        productDesc = product.productDesc,
+                        productUnitPrice = product.productUnitPrice,
+                        productQuantity = product.productQuantity,
+                        ProductViewPicture = Convert.ToBase64String(product.productImageByteString),
+                        ProductViewPictureFormat = product.productImage,
+                        categoryId = product.categoryId
+                    });
+                }
+            }
+            return products;
         }
 
         public Task<Product> ProductDetailsAsync()

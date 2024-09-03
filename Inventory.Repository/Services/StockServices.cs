@@ -24,7 +24,10 @@ namespace Inventory.Repository.Services
 
         public async Task<Stock> AddStockAsync()
         {
-            return new Stock();
+            return new Stock
+            {
+                StockReceiveDate = DateTime.Today
+            };
         }
 
         public async Task<Stock> AddStockAsync(Stock st)
@@ -50,6 +53,9 @@ namespace Inventory.Repository.Services
 
         public async Task<StockViewModel> AddProductsToStockAsync(StockViewModel vm)
         {
+            var stock = await dbContext.Stocks
+                .Where(x => x.skuId == vm.stock.skuId)
+                .SingleOrDefaultAsync();
             if (vm.products != null && vm.products.Count != 0)
             {
                 foreach (var product in vm.products)
@@ -68,16 +74,17 @@ namespace Inventory.Repository.Services
                         {
                             productName = product.productName,
                             productDesc = product.productDesc,
-                            //productImage = product.productImage.ContentType,
+                            productImage = product.productImage.ContentType,
                             productStatus = "In Stock",
                             productQuantity = product.productQuantity,
-                            productUnitPrice = product.productUnitPrice
+                            productUnitPrice = product.productUnitPrice,
+                            categoryId = product.categoryId
                         };
 
-                        /*var mStream = new MemoryStream();
+                        var mStream = new MemoryStream();
                         product.productImage.CopyTo(mStream);
                         newProduct.productImageByteString = mStream.ToArray();
-*/
+
                         await dbContext.Products.AddAsync(newProduct);
 
                         StockWithProduct stockProduct = new StockWithProduct
@@ -88,6 +95,7 @@ namespace Inventory.Repository.Services
 
                         await dbContext.StockProducts.AddAsync(stockProduct);
                     }
+                    stock.StockTotalCost += product.productQuantity * product.productUnitPrice;
                 }
             }
             await dbContext.SaveChangesAsync();
@@ -114,8 +122,8 @@ namespace Inventory.Repository.Services
                         {
                             productName = product.productName,
                             productDesc = product.productDesc,
-                            //ProductViewPicture = Convert.ToBase64String(product.productImageByteString),
-                            //ProductViewPictureFormat = product.productImage,
+                            ProductViewPicture = Convert.ToBase64String(product.productImageByteString),
+                            ProductViewPictureFormat = product.productImage,
                             productQuantity = product.productQuantity,
                             productUnitPrice = product.productUnitPrice,
                             categoryId = product.categoryId

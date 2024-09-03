@@ -4,19 +4,16 @@ using Inventory.Repository.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace productsDetails.Migrations
+namespace Inventory.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240827095618_stock-datetime-change-again")]
-    partial class stockdatetimechangeagain
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,7 @@ namespace productsDetails.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("productsDetails.Models.Category", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.Category", b =>
                 {
                     b.Property<int>("categoryId")
                         .ValueGeneratedOnAdd()
@@ -33,7 +30,7 @@ namespace productsDetails.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("categoryId"));
 
-                    b.Property<string>("categoryName")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -42,7 +39,7 @@ namespace productsDetails.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("productsDetails.Models.Product", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.Product", b =>
                 {
                     b.Property<Guid>("productId")
                         .ValueGeneratedOnAdd()
@@ -56,7 +53,12 @@ namespace productsDetails.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("productImage")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("productImageByteString")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("productName")
                         .IsRequired()
@@ -77,28 +79,50 @@ namespace productsDetails.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("productsDetails.Models.Stock", b =>
+            modelBuilder.Entity("Inventory.DTO.Models.Stock", b =>
                 {
                     b.Property<Guid>("skuId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("stockReceiveDate")
+                    b.Property<int>("ProductNumber")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StockReceiveDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("stockStatus")
+                    b.Property<string>("StockStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("stockTotalCost")
-                        .HasColumnType("int");
+                    b.Property<long>("StockTotalCost")
+                        .HasColumnType("bigint");
 
-                    b.Property<int?>("supplierId")
+                    b.Property<int?>("SupplierId")
                         .HasColumnType("int");
 
                     b.HasKey("skuId");
 
                     b.ToTable("Stocks");
+                });
+
+            modelBuilder.Entity("Inventory.DTO.Models.StockWithProduct", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("propductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("stockId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StockProducts");
                 });
 #pragma warning restore 612, 618
         }

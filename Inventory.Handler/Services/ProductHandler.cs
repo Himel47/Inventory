@@ -8,11 +8,11 @@ using System.Web.Mvc;
 
 namespace Inventory.Repository.Services
 {
-    public class ProductServices : IProductsServices
+    public class ProductHandler : IProductsHandler
     {
         private readonly ApplicationDbContext dbContext;
 
-        public ProductServices(ApplicationDbContext _dbContext)
+        public ProductHandler(ApplicationDbContext _dbContext)
         {
             dbContext = _dbContext;
         }

@@ -22,25 +22,19 @@
             @Html.DisplayNameFor(model => model.stock.StockReceiveDate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.stock.StockReceiveDate)
+            @Model.stock.StockReceiveDate.ToShortDateString()
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.stock.StockTotalCost)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.stock.StockTotalCost)
+            @Html.DisplayFor(model => model.stock.StockTotalCost) BDT
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.stock.SupplierId)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.stock.SupplierId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.stock.StockTotalCost)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.stock.StockTotalCost)
         </dd>
     </dl>
     <h4>Products Ordered:</h4>

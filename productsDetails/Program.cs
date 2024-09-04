@@ -1,5 +1,10 @@
+using Inventory.Handler.IServices;
+using Inventory.Handler.Services;
+using Inventory.Mapper;
 using Inventory.Repository.DataContext;
+using Inventory.Repository.IRepository;
 using Inventory.Repository.IServices;
+using Inventory.Repository.Repository;
 using Inventory.Repository.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,11 +12,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Mapping
+builder.Services.AddAutoMapper(typeof(MyMap).Assembly);
+
+//Db Connection
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("myString")
 ));
-builder.Services.AddScoped<IProductsServices, ProductServices>();
-builder.Services.AddScoped<IStockServices, StockServices>();
+
+//Interface mapping
+builder.Services.AddScoped<IProductsHandler, ProductHandler>();
+builder.Services.AddScoped<IStockHandler, StockHandler>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IStockRepository, StockRepository>();
 
 var app = builder.Build();
 

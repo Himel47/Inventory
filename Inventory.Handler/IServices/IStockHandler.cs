@@ -2,9 +2,9 @@
 using Inventory.DTO.ViewModels;
 
 
-namespace Inventory.Repository.IServices
+namespace Inventory.Handler.IServices
 {
-    public interface IStockServices
+    public interface IStockHandler
     {
         public Task<List<Stock>> GetStocksAsync();
         public Task<StockViewModel> StockDetailsAsync(Guid skuId);

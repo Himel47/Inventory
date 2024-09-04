@@ -1,25 +1,27 @@
 ﻿using Inventory.DTO.DTOs;
 using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
-using Inventory.Repository.DataContext;
-using Inventory.Repository.IServices;
+using Inventory.Handler.IServices;
+using Inventory.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 
-namespace Inventory.Repository.Services
+namespace Inventory.Handler.Services
 {
-    public class StockServices : IStockServices
+    public class StockHandler : IStockHandler
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IStockRepository stockRepository;
+        private readonly IProductRepository productRepository;
 
-        public StockServices(ApplicationDbContext _dbContext)
+        public StockHandler(IStockRepository _stockRepository, IProductRepository _productRepository)
         {
-            dbContext = _dbContext;
+            stockRepository = _stockRepository;
+            productRepository = _productRepository;
         }
 
         public async Task<List<Stock>> GetStocksAsync()
         {
-            var response = await dbContext.Stocks.ToListAsync();
-            return response;
+            var allStocks = await stockRepository.GetAllStocks();
+            return allStocks;
         }
 
         public async Task<Stock> AddStockAsync()
@@ -32,8 +34,11 @@ namespace Inventory.Repository.Services
 
         public async Task<Stock> AddStockAsync(Stock st)
         {
-            await dbContext.Stocks.AddAsync(st);
-            await dbContext.SaveChangesAsync();
+            var boolResponse = await stockRepository.AddStockAsync(st);
+            if (boolResponse)
+            {
+                await stockRepository.SaveDbChanges();
+            }
 
             return st;
         }
@@ -53,17 +58,12 @@ namespace Inventory.Repository.Services
 
         public async Task<StockViewModel> AddProductsToStockAsync(StockViewModel vm)
         {
-            var stock = await dbContext.Stocks
-                .Where(x => x.skuId == vm.stock.skuId)
-                .SingleOrDefaultAsync();
+            var stock = await stockRepository.GetStockById(vm.stock.skuId);
             if (vm.products != null && vm.products.Count != 0)
             {
                 foreach (var product in vm.products)
                 {
-                    var existedProduct = await dbContext.Products
-                        .Where(x => x.productName == product.productName
-                            && x.categoryId == product.categoryId)
-                        .FirstOrDefaultAsync();
+                    var existedProduct = await productRepository.GetExistingStockProduct(product);
                     if (existedProduct != null)
                     {
                         existedProduct.productQuantity += product.productQuantity;
@@ -85,37 +85,31 @@ namespace Inventory.Repository.Services
                         product.productImage.CopyTo(mStream);
                         newProduct.productImageByteString = mStream.ToArray();
 
-                        await dbContext.Products.AddAsync(newProduct);
+                        await productRepository.AddProductAsync(newProduct);
 
-                        StockWithProduct stockProduct = new StockWithProduct
+                        await productRepository.AddStockProductAsync(new StockWithProduct
                         {
                             stockId = vm.stock.skuId,
                             propductId = newProduct.productId
-                        };
-
-                        await dbContext.StockProducts.AddAsync(stockProduct);
+                        });
                     }
                     stock.StockTotalCost += product.productQuantity * product.productUnitPrice;
                 }
             }
-            await dbContext.SaveChangesAsync();
+            await stockRepository.SaveDbChanges();
             return vm;
         }
 
         public async Task<StockViewModel> StockDetailsAsync(Guid skuId)
         {
-            var stock = await dbContext.Stocks.SingleOrDefaultAsync(x => x.skuId == skuId);
+            var stock = await stockRepository.GetStockById(skuId);
             var productsList = new List<StockProductDto>();
-            var response = await dbContext.StockProducts
-                .Where(x => x.stockId == skuId)
-                .ToListAsync();
-            if (response != null)
+            var productsIdsInThisStock = await productRepository.GetStockProductsAsync(skuId);
+            if (productsIdsInThisStock != null)
             {
-                foreach (var res in response)
+                foreach (var stockProduct in productsIdsInThisStock)
                 {
-                    var product = await dbContext.Products
-                        .Where(x => x.productId == res.propductId)
-                        .FirstOrDefaultAsync();
+                    var product = await productRepository.GetProductByIdAsync(stockProduct.propductId);
                     if (product != null)
                     {
                         productsList.Add(new StockProductDto

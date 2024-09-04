@@ -6,52 +6,52 @@ namespace Inventory.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IProductsServices pServices;
+        private readonly IProductsHandler productHandler;
 
-        public ProductController(IProductsServices _pServices)
+        public ProductController(IProductsHandler _productHandler)
         {
-            pServices = _pServices;
+            productHandler = _productHandler;
         }
 
         [HttpGet]
         public async Task<IActionResult> ProductList()
         {
-            var allProducts = await pServices.GetProductsAsync();
+            var allProducts = await productHandler.GetProductsAsync();
             return View(allProducts);
         }
 
         [HttpGet]
         public async Task<IActionResult> AddProduct()
         {
-            var response = await pServices.AddProductAsync();
+            var response = await productHandler.AddProductAsync();
             return View(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddProduct(Product product)
         {
-            await pServices.AddProductAsync(product);
+            await productHandler.AddProductAsync(product);
             return RedirectToAction("ProductList");
         }
 
         [HttpGet]
         public async Task<IActionResult> ProductDetails(Guid pId)
         {
-            var singleProductDetails = await pServices.ProductDetailsAsync(pId);
+            var singleProductDetails = await productHandler.ProductDetailsAsync(pId);
             return View(singleProductDetails);
         }
 
         [HttpGet]
         public async Task<IActionResult> UpdateData(Guid pId)
         {
-            var response = await pServices.UpdateProductAsync(pId);
+            var response = await productHandler.UpdateProductAsync(pId);
             return View(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateData(Product product)
         {
-            await pServices.UpdateProductAsync(product);
+            await productHandler.UpdateProductAsync(product);
             return RedirectToAction("ProductList");
         }
 

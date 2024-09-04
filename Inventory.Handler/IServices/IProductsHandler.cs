@@ -4,7 +4,7 @@ using Inventory.DTO.ViewModels;
 
 namespace Inventory.Repository.IServices
 {
-    public interface IProductsServices
+    public interface IProductsHandler
     {
         public Task<List<StockProductDto>> GetProductsAsync();
         public Task<Product> ProductDetailsAsync(Guid productId);

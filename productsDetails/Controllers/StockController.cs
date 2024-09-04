@@ -1,58 +1,58 @@
 ﻿using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
-using Inventory.Repository.IServices;
+using Inventory.Handler.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Inventory.Controllers
 {
     public class StockController : Controller
     {
-        private readonly IStockServices services;
+        private readonly IStockHandler stockHandler;
 
-        public StockController(IStockServices _services)
+        public StockController(IStockHandler _stockHandler)
         {
-            services = _services;
+            stockHandler = _stockHandler;
         }
 
         [HttpGet]
         public async Task<IActionResult> StockList()
         {
-            var response = await services.GetStocksAsync();
+            var response = await stockHandler.GetStocksAsync();
             return View(response);
         }
 
         [HttpGet]
         public async Task<IActionResult> AddNewStock()
         {
-            var response = await services.AddStockAsync();
+            var response = await stockHandler.AddStockAsync();
             return View(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNewStock(Stock newStock)
         {
-            var response = await services.AddStockAsync(newStock);
+            var response = await stockHandler.AddStockAsync(newStock);
             return RedirectToAction("AddProductsToStock",response);
         }
 
         [HttpGet]
         public async Task<IActionResult> AddProductsToStock(Stock stock)
         {
-            var response = await services.AddProductsToStockAsync(stock);
+            var response = await stockHandler.AddProductsToStockAsync(stock);
             return View(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddProductsToStock(StockViewModel vm)
         {
-            var response = await services.AddProductsToStockAsync(vm);
+            var response = await stockHandler.AddProductsToStockAsync(vm);
             return RedirectToAction("StockList");
         }
 
         [HttpGet]
         public async Task<IActionResult> StockDetails(Guid skuId)
         {
-            var singleProductDetails = await services.StockDetailsAsync(skuId);
+            var singleProductDetails = await stockHandler.StockDetailsAsync(skuId);
             return View(singleProductDetails);
         }
     }

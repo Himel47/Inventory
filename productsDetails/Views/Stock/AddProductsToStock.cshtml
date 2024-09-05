@@ -58,35 +58,37 @@
                 <div class="card-body">
                     <div class="row col-10 mb-2">
                         <div class="form-group col-md-6">
-                            <label asp-for="@Model.products[it].productName"></label>
+                            <label asp-for="@Model.products[it].productName" class="form-label"></label>
                             <input asp-for="@Model.products[it].productName" class="form-control" />
                             <span asp-validation-for="@Model.products[it].productName" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label asp-for="@Model.products[it].categoryId"></label>
-                            <input asp-for="@Model.products[it].categoryId" class="form-control" />
+                        <div class="form-group col-md-5">
+                            <label asp-for="@Model.products[it].categoryId" class="form-label"></label>
+                            <select class="col-7 form-select text-dark" asp-items="Model.Categories" asp-for="@Model.products[it].categoryId">
+                                <option value="0">-- Select Category --</option>
+                            </select>
                             <span asp-validation-for="@Model.products[it].categoryId" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-md-5 mb-2">
-                        <label asp-for="@Model.products[it].productDesc"></label>
+                        <label asp-for="@Model.products[it].productDesc" class="form-label"></label>
                         <textarea asp-for="@Model.products[it].productDesc" class="form-control" rows="4" cols="50"></textarea>
                         <span asp-validation-for="@Model.products[it].productDesc" class="text-danger"></span>
                     </div>
                     <div class="row mb-2">
                         <div class="form-group col-md-4">
-                            <label asp-for="@Model.products[it].productUnitPrice"></label>
+                            <label asp-for="@Model.products[it].productUnitPrice" class="form-label"></label>
                             <input asp-for="@Model.products[it].productUnitPrice" class="form-control" />
                             <span asp-validation-for="@Model.products[it].productUnitPrice" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4">
-                            <label asp-for="@Model.products[it].productQuantity"></label>
+                            <label asp-for="@Model.products[it].productQuantity" class="form-label"></label>
                             <input asp-for="@Model.products[it].productQuantity" class="form-control" />
                             <span asp-validation-for="@Model.products[it].productQuantity" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-10 mb-2">
-                        <label asp-for="@Model.products[it].productImage"></label>
+                        <label asp-for="@Model.products[it].productImage" class="form-label"></label>
                         <input asp-for="@Model.products[it].productImage" class="form-control-file" />
                         <span asp-validation-for="@Model.products[it].productImage" class="text-danger"></span>
                     </div>

@@ -11,19 +11,13 @@ using System.Threading.Tasks;
 
 namespace Inventory.Repository.Repository
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         private readonly ApplicationDbContext dbContext;
 
-        public ProductRepository(ApplicationDbContext _dbContext)
+        public ProductRepository(ApplicationDbContext _dbContext) : base(_dbContext) 
         {
             dbContext = _dbContext;
-        }
-
-        public async Task<List<Product>> GetAllProductsAsync()
-        {
-            var allProducts = await dbContext.Products.ToListAsync();
-            return allProducts;
         }
 
         public async Task<Product> GetExistingStockProduct(StockProductDto stockProduct)
@@ -34,21 +28,6 @@ namespace Inventory.Repository.Repository
                         .SingleOrDefaultAsync();
             return existingProduct;
         }
-
-        public async Task<bool> AddProductAsync(Product product)
-        {
-            try
-            {
-                await dbContext.Products.AddAsync(product);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-        }
-
         public async Task<bool> AddStockProductAsync(StockWithProduct stockProduct)
         {
             try
@@ -69,14 +48,6 @@ namespace Inventory.Repository.Repository
                 .Where(x => x.stockId == skuId)
                 .ToListAsync();
             return productsInStock;
-        }
-
-        public async Task<Product> GetProductByIdAsync(Guid productId)
-        {
-            var singleProduct = await dbContext.Products
-                        .Where(x => x.productId == productId)
-                        .FirstOrDefaultAsync();
-            return singleProduct;
         }
     }
 }

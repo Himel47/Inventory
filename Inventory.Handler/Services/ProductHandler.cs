@@ -4,7 +4,7 @@ using Inventory.DTO.ViewModels;
 using Inventory.Repository.DataContext;
 using Inventory.Repository.IServices;
 using Microsoft.EntityFrameworkCore;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Inventory.Repository.Services
 {
@@ -54,31 +54,6 @@ namespace Inventory.Repository.Services
                 }
             }
             return products;
-        }
-
-        public Task<Product> ProductDetailsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Product> ProductDetailsAsync(Guid productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Product> RemoveProductAsync(Guid productId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Product> UpdateProductAsync(Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Product> UpdateProductAsync(Guid productId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

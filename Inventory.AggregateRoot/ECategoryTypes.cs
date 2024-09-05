@@ -1,8 +1,7 @@
-﻿namespace Inventory.DTO.Models
+﻿namespace Inventory.AggregateRoot
 {
     public enum ECategoryTypes
     {
-        Default = 0,
         Phone = 1,
         Computer = 2,
         Computer_Accessories = 3,

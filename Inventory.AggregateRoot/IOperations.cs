@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inventory.AggregateRoot.IOperation
+namespace Inventory.AggregateRoot
 {
-    public interface IProductOperation
+    public interface IOperations
     {
+        Task<List<ECategoryTypes>> GetCategories();
     }
 }

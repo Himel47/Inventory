@@ -1,5 +1,5 @@
 ﻿using Inventory.DTO.Models;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Inventory.DTO.ViewModels
 {

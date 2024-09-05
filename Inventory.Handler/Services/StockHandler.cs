@@ -1,27 +1,34 @@
-﻿using Inventory.DTO.DTOs;
+﻿using Inventory.AggregateRoot;
+using Inventory.DTO.DTOs;
 using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
 using Inventory.Handler.IServices;
 using Inventory.Repository.IRepository;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Inventory.Handler.Services
 {
     public class StockHandler : IStockHandler
     {
-        private readonly IStockRepository stockRepository;
-        private readonly IProductRepository productRepository;
+        private readonly IGenericRepository<Stock> _stockRepository;
+        private readonly IGenericRepository<StockWithProduct> _stockProductRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IOperations _operation;
 
-        public StockHandler(IStockRepository _stockRepository, IProductRepository _productRepository)
+        public StockHandler(IGenericRepository<Stock> stockRepository,
+                            IProductRepository productRepository,
+                            IGenericRepository<StockWithProduct> stockProductRepository,
+                            IOperations operation)
         {
-            stockRepository = _stockRepository;
-            productRepository = _productRepository;
+            _stockRepository = stockRepository;
+            _productRepository = productRepository;
+            _stockProductRepository = stockProductRepository;
+            _operation = operation;
         }
 
         public async Task<List<Stock>> GetStocksAsync()
         {
-            var allStocks = await stockRepository.GetAllStocks();
-            return allStocks;
+            return await _stockRepository.GetAllAsync();
         }
 
         public async Task<Stock> AddStockAsync()
@@ -34,23 +41,20 @@ namespace Inventory.Handler.Services
 
         public async Task<Stock> AddStockAsync(Stock st)
         {
-            var boolResponse = await stockRepository.AddStockAsync(st);
-            if (boolResponse)
-            {
-                await stockRepository.SaveDbChanges();
-            }
-
+            await _stockRepository.AddAsync(st);
             return st;
         }
 
         public async Task<StockViewModel> AddProductsToStockAsync(Stock st)
         {
+            var categories = await _operation.GetCategories();
             var vm = new StockViewModel
             {
                 stock = st,
                 products = Enumerable.Range(0, st.ProductNumber)
                     .Select(i => new StockProductDto())
-                    .ToList()
+                    .ToList(),
+                Categories = new SelectList(categories.Select(c => new { Value = (int)c, Text = c.ToString() }), "Value", "Text")
             };
 
             return vm;
@@ -58,15 +62,16 @@ namespace Inventory.Handler.Services
 
         public async Task<StockViewModel> AddProductsToStockAsync(StockViewModel vm)
         {
-            var stock = await stockRepository.GetStockById(vm.stock.skuId);
+            var stock = await _stockRepository.GetByIdAsync(vm.stock.skuId);
             if (vm.products != null && vm.products.Count != 0)
             {
                 foreach (var product in vm.products)
                 {
-                    var existedProduct = await productRepository.GetExistingStockProduct(product);
+                    var existedProduct = await _productRepository.GetExistingStockProduct(product);
                     if (existedProduct != null)
                     {
                         existedProduct.productQuantity += product.productQuantity;
+                        await _productRepository.SaveDbChanges();
                     }
                     else
                     {
@@ -85,9 +90,9 @@ namespace Inventory.Handler.Services
                         product.productImage.CopyTo(mStream);
                         newProduct.productImageByteString = mStream.ToArray();
 
-                        await productRepository.AddProductAsync(newProduct);
+                        await _productRepository.AddAsync(newProduct);
 
-                        await productRepository.AddStockProductAsync(new StockWithProduct
+                        await _stockProductRepository.AddAsync(new StockWithProduct
                         {
                             stockId = vm.stock.skuId,
                             propductId = newProduct.productId
@@ -96,20 +101,19 @@ namespace Inventory.Handler.Services
                     stock.StockTotalCost += product.productQuantity * product.productUnitPrice;
                 }
             }
-            await stockRepository.SaveDbChanges();
             return vm;
         }
 
         public async Task<StockViewModel> StockDetailsAsync(Guid skuId)
         {
-            var stock = await stockRepository.GetStockById(skuId);
+            var stock = await _stockRepository.GetByIdAsync(skuId);
             var productsList = new List<StockProductDto>();
-            var productsIdsInThisStock = await productRepository.GetStockProductsAsync(skuId);
+            var productsIdsInThisStock = await _productRepository.GetStockProductsAsync(stock.skuId);
             if (productsIdsInThisStock != null)
             {
                 foreach (var stockProduct in productsIdsInThisStock)
                 {
-                    var product = await productRepository.GetProductByIdAsync(stockProduct.propductId);
+                    var product = await _productRepository.GetByIdAsync(stockProduct.propductId);
                     if (product != null)
                     {
                         productsList.Add(new StockProductDto
@@ -134,21 +138,6 @@ namespace Inventory.Handler.Services
                 vm.stock = stock;
             }
             return vm;
-        }
-
-        public Task<Stock> UpdateStockAsync(Guid skuId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Stock> UpdateStockAsync(Stock stock)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Stock> RemoveStockAsync(Guid stockId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

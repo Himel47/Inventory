@@ -24,7 +24,7 @@
 }
 else
 {
-    <table class="table">
+    <table class="table table-striped" id="all-stocks-table">
         <thead>
             <tr class="text-center">
                 <th>
@@ -65,10 +65,22 @@ else
                         @Html.DisplayFor(modelItem => item.ProductNumber)
                     </td>
                     <td>
-                        <a asp-action="StockDetails" class="btn btn-outline-success" asp-route-skuId="@item.skuId">Details</a>
+                        <a asp-action="StockDetails" class="btn btn-outline-success btn-sm" asp-route-skuId="@item.skuId">Details</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+}
+
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+
+            $("#all-stocks-table").DataTable()
+
+        })
+    </script>
 }

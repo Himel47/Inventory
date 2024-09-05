@@ -8,13 +8,10 @@ using System.Threading.Tasks;
 
 namespace Inventory.Repository.IRepository
 {
-    public interface IProductRepository
+    public interface IProductRepository: IGenericRepository<Product>
     {
-        public Task<List<Product>> GetAllProductsAsync();
         public Task<Product> GetExistingStockProduct(StockProductDto stockProduct);
-        public Task<bool> AddProductAsync(Product product);
         public Task<bool> AddStockProductAsync(StockWithProduct stockProduct);
         public Task<List<StockWithProduct>> GetStockProductsAsync(Guid skuId);
-        public Task<Product> GetProductByIdAsync(Guid productId); 
     }
 }

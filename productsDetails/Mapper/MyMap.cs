@@ -8,7 +8,9 @@ namespace Inventory.Mapper
     {
         public MyMap()
         {
-            CreateMap<Product, StockProductDto>();
+            CreateMap<Product, StockProductDto>()
+                .ForMember(destination=>destination.ProductViewPicture, begin=> begin.MapFrom(mappingSrc=>Convert.ToBase64String(mappingSrc.productImageByteString)))
+                .ForMember(destination=>destination.ProductViewPictureFormat, begin=> begin.MapFrom(mappingSrc=> mappingSrc.productImage));
             CreateMap<StockProductDto, Product>();
         }
     }

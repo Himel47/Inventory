@@ -24,6 +24,7 @@
                     <th>Category id</th>
                     <th>Product name</th>
                     <th>Unit Cost</th>
+                    <th>Amount in Stock</th>
                     <th class="visible">Action</th>
                 </tr>
             </thead>
@@ -37,6 +38,7 @@
                         <td>@product.categoryId</td>
                         <td>@product.productName</td>
                         <td>@product.productUnitPrice</td>
+                        <td>@product.productQuantity</td>
                         <td class="text-center">
                             @* <div class="btn btn-group gap-3">
                                 <a class="text-decoration-none" asp-action="ProductDetails" asp-route-pId="@product.productId">Details</a>

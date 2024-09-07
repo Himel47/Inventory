@@ -33,7 +33,7 @@ namespace Inventory.Repository.Repository
         public async Task<bool> AddAsync(T entity)
         {
             await dbSet.AddAsync(entity);
-            return await SaveDbChanges();
+            return true;
         }
 
         public async Task<bool> SaveDbChanges()

@@ -79,7 +79,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.productUnitPrice)
                     </td>
-                    @if(item.productQuantity >= 0){
+                    @if(item.productQuantity > 0){
                         <td class="text-success">
                             In Stock Now
                         </td>

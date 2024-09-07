@@ -18,7 +18,7 @@ namespace Inventory.DTO.DTOs
         public int productQuantity { get; set; }
 
         [Display(Name = "Product Image")]
-        public IFormFile productImage { get; set; }
+        public IFormFile productImageInput { get; set; }
 
         [Display(Name ="Category")]
         public int categoryId { get; set; }

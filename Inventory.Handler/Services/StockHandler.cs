@@ -1,4 +1,5 @@
-﻿using Inventory.AggregateRoot;
+﻿using AutoMapper;
+using Inventory.AggregateRoot;
 using Inventory.DTO.DTOs;
 using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
@@ -14,16 +15,19 @@ namespace Inventory.Handler.Services
         private readonly IGenericRepository<StockWithProduct> _stockProductRepository;
         private readonly IProductRepository _productRepository;
         private readonly IOperations _operation;
+        private readonly IMapper _mapper;
 
         public StockHandler(IGenericRepository<Stock> stockRepository,
                             IProductRepository productRepository,
                             IGenericRepository<StockWithProduct> stockProductRepository,
-                            IOperations operation)
+                            IOperations operation,
+                            IMapper mapper)
         {
             _stockRepository = stockRepository;
             _productRepository = productRepository;
             _stockProductRepository = stockProductRepository;
             _operation = operation;
+            _mapper = mapper;
         }
 
         public async Task<List<Stock>> GetStocksAsync()
@@ -67,37 +71,27 @@ namespace Inventory.Handler.Services
             {
                 foreach (var product in vm.products)
                 {
+                    var stockWithProduct = new StockWithProduct
+                    {
+                        stockId = vm.stock.skuId
+                    };
                     var existedProduct = await _productRepository.GetExistingStockProduct(product);
                     if (existedProduct != null)
                     {
                         existedProduct.productQuantity += product.productQuantity;
+
+                        stockWithProduct.propductId = existedProduct.productId;
                         await _productRepository.SaveDbChanges();
                     }
                     else
                     {
-                        var newProduct = new Product
-                        {
-                            productName = product.productName,
-                            productDesc = product.productDesc,
-                            productImage = product.productImage.ContentType,
-                            productStatus = "In Stock",
-                            productQuantity = product.productQuantity,
-                            productUnitPrice = product.productUnitPrice,
-                            categoryId = product.categoryId
-                        };
-
-                        var mStream = new MemoryStream();
-                        product.productImage.CopyTo(mStream);
-                        newProduct.productImageByteString = mStream.ToArray();
+                        var newProduct = _mapper.Map<Product>(product);
 
                         await _productRepository.AddAsync(newProduct);
 
-                        await _stockProductRepository.AddAsync(new StockWithProduct
-                        {
-                            stockId = vm.stock.skuId,
-                            propductId = newProduct.productId
-                        });
+                        stockWithProduct.propductId = newProduct.productId;
                     }
+                    await _stockProductRepository.AddAsync(stockWithProduct);
                     stock.StockTotalCost += product.productQuantity * product.productUnitPrice;
                 }
             }
@@ -116,27 +110,16 @@ namespace Inventory.Handler.Services
                     var product = await _productRepository.GetByIdAsync(stockProduct.propductId);
                     if (product != null)
                     {
-                        productsList.Add(new StockProductDto
-                        {
-                            productName = product.productName,
-                            productDesc = product.productDesc,
-                            ProductViewPicture = Convert.ToBase64String(product.productImageByteString),
-                            ProductViewPictureFormat = product.productImage,
-                            productQuantity = product.productQuantity,
-                            productUnitPrice = product.productUnitPrice,
-                            categoryId = product.categoryId
-                        });
+                        var newStockProduct = _mapper.Map<StockProductDto>(product);
+                        productsList.Add(newStockProduct);
                     }
                 }
             }
             var vm = new StockViewModel
             {
-                products = productsList
+                products = productsList,
+                stock = stock
             };
-            if (stock != null)
-            {
-                vm.stock = stock;
-            }
             return vm;
         }
     }

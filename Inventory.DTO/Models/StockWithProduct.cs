@@ -8,5 +8,7 @@ namespace Inventory.DTO.Models
         public long Id { get; set; }
         public Guid stockId { get; set; }
         public Guid propductId { get; set; }
+        public int productStockPrice { get; set; }
+        public int productStockQuantity { get; set; }
     }
 }

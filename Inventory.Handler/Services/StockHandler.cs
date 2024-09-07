@@ -73,26 +73,26 @@ namespace Inventory.Handler.Services
                 {
                     var stockWithProduct = new StockWithProduct
                     {
-                        stockId = vm.stock.skuId
+                        stockId = vm.stock.skuId,
+                        productStockPrice = product.productUnitPrice,
+                        productStockQuantity = product.productQuantity,
                     };
                     var existedProduct = await _productRepository.GetExistingStockProduct(product);
+
                     if (existedProduct != null)
                     {
                         existedProduct.productQuantity += product.productQuantity;
-
                         stockWithProduct.propductId = existedProduct.productId;
-                        await _productRepository.SaveDbChanges();
                     }
                     else
                     {
                         var newProduct = _mapper.Map<Product>(product);
-
                         await _productRepository.AddAsync(newProduct);
-
                         stockWithProduct.propductId = newProduct.productId;
                     }
                     await _stockProductRepository.AddAsync(stockWithProduct);
                     stock.StockTotalCost += product.productQuantity * product.productUnitPrice;
+                    await _productRepository.SaveDbChanges();
                 }
             }
             return vm;

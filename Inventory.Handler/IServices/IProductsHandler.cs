@@ -9,5 +9,6 @@ namespace Inventory.Repository.IServices
         Task<List<StockProductDto>> GetProductsAsync();
         Task<AddProductViewModel> AddProductAsync();
         Task<Product> AddProductAsync(Product product);
+        Task<Product> ProductDetailsAsync(string productName, int categoryId);
     }
 }

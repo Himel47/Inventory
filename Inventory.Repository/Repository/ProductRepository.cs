@@ -28,19 +28,6 @@ namespace Inventory.Repository.Repository
                         .SingleOrDefaultAsync();
             return existingProduct;
         }
-        public async Task<bool> AddStockProductAsync(StockWithProduct stockProduct)
-        {
-            try
-            {
-                await dbContext.StockProducts.AddAsync(stockProduct);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-        }
 
         public async Task<List<StockWithProduct>> GetStockProductsAsync(Guid skuId)
         {
@@ -48,6 +35,13 @@ namespace Inventory.Repository.Repository
                 .Where(x => x.stockId == skuId)
                 .ToListAsync();
             return productsInStock;
+        }
+
+        public async Task<Product> GetProductByName(string name, int categoryId)
+        {
+            var product = await dbContext.Products.SingleOrDefaultAsync(x=>x.productName==name && x.categoryId==categoryId);
+
+            return product;
         }
     }
 }

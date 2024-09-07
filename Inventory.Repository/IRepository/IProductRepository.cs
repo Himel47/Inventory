@@ -10,8 +10,8 @@ namespace Inventory.Repository.IRepository
 {
     public interface IProductRepository: IGenericRepository<Product>
     {
-        public Task<Product> GetExistingStockProduct(StockProductDto stockProduct);
-        public Task<bool> AddStockProductAsync(StockWithProduct stockProduct);
-        public Task<List<StockWithProduct>> GetStockProductsAsync(Guid skuId);
+        Task<Product> GetExistingStockProduct(StockProductDto stockProduct);
+        Task<List<StockWithProduct>> GetStockProductsAsync(Guid skuId);
+        Task<Product> GetProductByName(string name, int categoryId);
     }
 }

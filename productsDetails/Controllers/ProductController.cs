@@ -34,12 +34,12 @@ namespace Inventory.Controllers
             return RedirectToAction("ProductList");
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> ProductDetails(Guid pId)
-        //{
-        //    var singleProductDetails = await productHandler.ProductDetailsAsync(pId);
-        //    return View(singleProductDetails);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> ProductDetails(string pName, int cId)
+        {
+            var singleProductDetails = await productHandler.ProductDetailsAsync(pName, cId);
+            return View(singleProductDetails);
+        }
 
         //[HttpGet]
         //public async Task<IActionResult> UpdateData(Guid pId)

@@ -3,11 +3,6 @@ using Inventory.DTO.Models;
 using Inventory.Repository.DataContext;
 using Inventory.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Inventory.Repository.Repository
 {

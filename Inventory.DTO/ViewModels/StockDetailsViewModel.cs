@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Inventory.DTO.ViewModels
 {
-    public class StockProductViewModel
+    public class StockDetailsViewModel
     {
 
     }

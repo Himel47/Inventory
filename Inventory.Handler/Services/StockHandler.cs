@@ -11,28 +11,28 @@ namespace Inventory.Handler.Services
 {
     public class StockHandler : IStockHandler
     {
-        private readonly IGenericRepository<Stock> _stockRepository;
-        private readonly IGenericRepository<StockWithProduct> _stockProductRepository;
+        private readonly IGenericRepository<Stock> _genericStockRepository;
+        private readonly IGenericRepository<StockWithProduct> _genericStockProductRepository;
         private readonly IProductRepository _productRepository;
         private readonly IOperations _operation;
         private readonly IMapper _mapper;
 
         public StockHandler(IGenericRepository<Stock> stockRepository,
-                            IProductRepository productRepository,
                             IGenericRepository<StockWithProduct> stockProductRepository,
+                            IProductRepository productRepository,
                             IOperations operation,
                             IMapper mapper)
         {
-            _stockRepository = stockRepository;
+            _genericStockRepository = stockRepository;
+            _genericStockProductRepository = stockProductRepository;
             _productRepository = productRepository;
-            _stockProductRepository = stockProductRepository;
             _operation = operation;
             _mapper = mapper;
         }
 
         public async Task<List<Stock>> GetStocksAsync()
         {
-            return await _stockRepository.GetAllAsync();
+            return await _genericStockRepository.GetAllAsync();
         }
 
         public async Task<Stock> AddStockAsync()
@@ -45,7 +45,8 @@ namespace Inventory.Handler.Services
 
         public async Task<Stock> AddStockAsync(Stock st)
         {
-            await _stockRepository.AddAsync(st);
+            await _genericStockRepository.AddAsync(st);
+            await _genericStockRepository.SaveDbChanges();
             return st;
         }
 
@@ -66,11 +67,12 @@ namespace Inventory.Handler.Services
 
         public async Task<StockViewModel> AddProductsToStockAsync(StockViewModel vm)
         {
-            var stock = await _stockRepository.GetByIdAsync(vm.stock.skuId);
+            var stock = await _genericStockRepository.GetByIdAsync(vm.stock.skuId);
             if (vm.products != null && vm.products.Count != 0)
             {
                 foreach (var product in vm.products)
                 {
+                    // stock and product relation
                     var stockWithProduct = new StockWithProduct
                     {
                         stockId = vm.stock.skuId,
@@ -90,7 +92,7 @@ namespace Inventory.Handler.Services
                         await _productRepository.AddAsync(newProduct);
                         stockWithProduct.propductId = newProduct.productId;
                     }
-                    await _stockProductRepository.AddAsync(stockWithProduct);
+                    await _genericStockProductRepository.AddAsync(stockWithProduct);
                     stock.StockTotalCost += product.productQuantity * product.productUnitPrice;
                     await _productRepository.SaveDbChanges();
                 }
@@ -100,7 +102,7 @@ namespace Inventory.Handler.Services
 
         public async Task<StockViewModel> StockDetailsAsync(Guid skuId)
         {
-            var stock = await _stockRepository.GetByIdAsync(skuId);
+            var stock = await _genericStockRepository.GetByIdAsync(skuId);
             var productsList = new List<StockProductDto>();
             var productsIdsInThisStock = await _productRepository.GetStockProductsAsync(stock.skuId);
             if (productsIdsInThisStock != null)
@@ -111,6 +113,8 @@ namespace Inventory.Handler.Services
                     if (product != null)
                     {
                         var newStockProduct = _mapper.Map<StockProductDto>(product);
+                        newStockProduct.productQuantity = stockProduct.productStockQuantity;
+                        newStockProduct.productUnitPrice = stockProduct.productStockPrice;
                         productsList.Add(newStockProduct);
                     }
                 }

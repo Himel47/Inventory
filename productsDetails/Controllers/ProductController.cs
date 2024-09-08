@@ -1,4 +1,5 @@
-﻿using Inventory.DTO.Models;
+﻿using Inventory.DTO.DTOs;
+using Inventory.DTO.Models;
 using Inventory.Repository.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +29,7 @@ namespace Inventory.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct(Product product)
+        public async Task<IActionResult> AddProduct(StockProductDto product)
         {
             await productHandler.AddProductAsync(product);
             return RedirectToAction("ProductList");

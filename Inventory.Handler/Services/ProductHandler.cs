@@ -1,20 +1,17 @@
 ﻿using Inventory.DTO.DTOs;
 using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
-using Inventory.Repository.DataContext;
 using Inventory.Repository.IServices;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using AutoMapper;
 using Inventory.Repository.IRepository;
-using Inventory.Repository.Repository;
 using Inventory.AggregateRoot;
+using AutoMapper;
 
 namespace Inventory.Repository.Services
 {
     public class ProductHandler : IProductsHandler
     {
-        private readonly IGenericRepository<Product> _genericRepository;
+        private readonly IGenericRepository<Product> _genericProductRepository;
         private readonly IMapper _mapper;
         private readonly IOperations _operations;
         private readonly IProductRepository _productRepository;
@@ -24,7 +21,7 @@ namespace Inventory.Repository.Services
                               IOperations operations,
                               IProductRepository productRepository)
         {
-            _genericRepository = genericRepository;
+            _genericProductRepository = genericRepository;
             _mapper = mapper;
             _operations = operations;
             _productRepository = productRepository;
@@ -41,7 +38,7 @@ namespace Inventory.Repository.Services
             return vm;
         }
 
-        public Task<Product> AddProductAsync(Product product)
+        public Task<Product> AddProductAsync(StockProductDto product)
         {
             throw new NotImplementedException();
         }
@@ -49,7 +46,7 @@ namespace Inventory.Repository.Services
         public async Task<List<StockProductDto>> GetProductsAsync()
         {
             List<StockProductDto> products = new List<StockProductDto>();
-            var allProducts = await _genericRepository.GetAllAsync();
+            var allProducts = await _genericProductRepository.GetAllAsync();
             if (allProducts != null)
             {
                 foreach(var product in allProducts)

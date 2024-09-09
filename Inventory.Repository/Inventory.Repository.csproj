@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Inventory.DTO\Inventory.DTO.csproj" />
+    <ProjectReference Include="..\Inventory.AggregateRoot\Inventory.AggregateRoot.csproj" />
   </ItemGroup>
 
 </Project>

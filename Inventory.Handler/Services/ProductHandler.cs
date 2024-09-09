@@ -4,8 +4,8 @@ using Inventory.DTO.ViewModels;
 using Inventory.Repository.IServices;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Inventory.Repository.IRepository;
-using Inventory.AggregateRoot;
 using AutoMapper;
+using Inventory.AggregateRoot.IMapping;
 
 namespace Inventory.Repository.Services
 {
@@ -13,12 +13,12 @@ namespace Inventory.Repository.Services
     {
         private readonly IGenericRepository<Product> _genericProductRepository;
         private readonly IMapper _mapper;
-        private readonly IOperations _operations;
+        private readonly IMappingOperations _operations;
         private readonly IProductRepository _productRepository;
 
         public ProductHandler(IGenericRepository<Product> genericRepository,
                               IMapper mapper,
-                              IOperations operations,
+                              IMappingOperations operations,
                               IProductRepository productRepository)
         {
             _genericProductRepository = genericRepository;

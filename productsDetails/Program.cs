@@ -1,4 +1,5 @@
-using Inventory.AggregateRoot;
+using Inventory.AggregateRoot.IMapping;
+using Inventory.AggregateRoot.Mapping;
 using Inventory.DTO.Models;
 using Inventory.Handler.IServices;
 using Inventory.Handler.Services;
@@ -27,7 +28,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 builder.Services.AddScoped<IProductsHandler, ProductHandler>();
 builder.Services.AddScoped<IStockHandler, StockHandler>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IOperations, Operations>();
+builder.Services.AddScoped<IMappingOperations, MappingOperations>();
 builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 

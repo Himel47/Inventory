@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inventory.AggregateRoot
+namespace Inventory.AggregateRoot.IMapping
 {
     public interface IOperations
     {

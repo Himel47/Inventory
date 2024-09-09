@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Inventory.DTO.Models
+namespace Inventory.AggregateRoot.Models
 {
     public class Product
     {

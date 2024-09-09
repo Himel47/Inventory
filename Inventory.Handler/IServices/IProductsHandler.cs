@@ -1,5 +1,5 @@
-﻿using Inventory.DTO.DTOs;
-using Inventory.DTO.Models;
+﻿using Inventory.AggregateRoot.Models;
+using Inventory.DTO.DTOs;
 using Inventory.DTO.ViewModels;
 
 namespace Inventory.Repository.IServices

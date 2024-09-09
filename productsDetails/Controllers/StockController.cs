@@ -1,4 +1,4 @@
-﻿using Inventory.DTO.Models;
+﻿using Inventory.AggregateRoot.Models;
 using Inventory.DTO.ViewModels;
 using Inventory.Handler.IServices;
 using Microsoft.AspNetCore.Mvc;

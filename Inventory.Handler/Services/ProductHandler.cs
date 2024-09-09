@@ -1,11 +1,11 @@
 ﻿using Inventory.DTO.DTOs;
-using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
 using Inventory.Repository.IServices;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Inventory.Repository.IRepository;
 using AutoMapper;
 using Inventory.AggregateRoot.IMapping;
+using Inventory.AggregateRoot.Models;
 
 namespace Inventory.Repository.Services
 {

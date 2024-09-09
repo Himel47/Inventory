@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Inventory.AggregateRoot.Models;
 using Inventory.DTO.DTOs;
-using Inventory.DTO.Models;
 
 namespace Inventory.Mapper
 {

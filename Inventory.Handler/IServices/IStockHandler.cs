@@ -1,4 +1,4 @@
-﻿using Inventory.DTO.Models;
+﻿using Inventory.AggregateRoot.Models;
 using Inventory.DTO.ViewModels;
 
 

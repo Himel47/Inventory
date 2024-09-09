@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Inventory.AggregateRoot;
+using Inventory.AggregateRoot.IMapping;
+using Inventory.AggregateRoot.Models;
 using Inventory.DTO.DTOs;
-using Inventory.DTO.Models;
 using Inventory.DTO.ViewModels;
 using Inventory.Handler.IServices;
 using Inventory.Repository.IRepository;
@@ -14,13 +14,13 @@ namespace Inventory.Handler.Services
         private readonly IGenericRepository<Stock> _genericStockRepository;
         private readonly IGenericRepository<StockWithProduct> _genericStockProductRepository;
         private readonly IProductRepository _productRepository;
-        private readonly IOperations _operation;
+        private readonly IMappingOperations _operation;
         private readonly IMapper _mapper;
 
         public StockHandler(IGenericRepository<Stock> stockRepository,
                             IGenericRepository<StockWithProduct> stockProductRepository,
                             IProductRepository productRepository,
-                            IOperations operation,
+                            IMappingOperations operation,
                             IMapper mapper)
         {
             _genericStockRepository = stockRepository;

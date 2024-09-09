@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Inventory.DTO.Models
+namespace Inventory.AggregateRoot.Models
 {
     public class Stock
     {

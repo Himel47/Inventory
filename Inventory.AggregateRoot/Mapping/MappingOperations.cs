@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inventory.AggregateRoot.IMapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Inventory.AggregateRoot
 {
-    public class Operations : IOperations
+    public class MappingOperations : IMappingOperations
     {
         public async Task<List<ECategoryTypes>> GetCategories()
         {

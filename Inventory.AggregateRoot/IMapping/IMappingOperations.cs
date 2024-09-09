@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Inventory.AggregateRoot.IMapping
 {
-    public interface IOperations
+    public interface IMappingOperations
     {
         Task<List<ECategoryTypes>> GetCategories();
     }

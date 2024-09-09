@@ -1,5 +1,5 @@
-﻿using Inventory.DTO.DTOs;
-using Inventory.DTO.Models;
+﻿using Inventory.AggregateRoot.Models;
+using Inventory.DTO.DTOs;
 using Inventory.Repository.DataContext;
 using Inventory.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;

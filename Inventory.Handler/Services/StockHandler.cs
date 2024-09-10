@@ -50,7 +50,7 @@ namespace Inventory.Handler.Services
             return st;
         }
 
-        public async Task<StockViewModel> AddProductsToStockAsync(Stock st)
+        public async Task<StockViewModel> AddProductsToStockAsync(StockDto st)
         {
             var categories = await _operation.GetCategories();
             var vm = new StockViewModel

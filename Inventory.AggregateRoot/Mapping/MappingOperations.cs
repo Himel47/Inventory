@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Inventory.AggregateRoot
+namespace Inventory.AggregateRoot.Mapping
 {
     public class MappingOperations : IMappingOperations
     {
